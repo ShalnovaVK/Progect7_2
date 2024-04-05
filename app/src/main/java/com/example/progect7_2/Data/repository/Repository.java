@@ -8,16 +8,17 @@ import androidx.room.Room;
 import com.example.progect7_2.Data.DataSourse.Files.AppSpecificDS;
 import com.example.progect7_2.Data.DataSourse.Files.ExternalStorageDirectory;
 import com.example.progect7_2.Data.DataSourse.Room.Appdatabase;
+import com.example.progect7_2.Data.DataSourse.Room.DAO.ListDAO;
 import com.example.progect7_2.Data.DataSourse.Room.entities.Cathegory;
 import com.example.progect7_2.Data.DataSourse.SharedPreferences.SharedPreferencesDS;
 import com.example.progect7_2.Data.model.ListData;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Repository {
     private Appdatabase db;
-    public MutableLiveData<List<Cathegory>> mutableLiveData;
+    //public MutableLiveData<List<Cathegory>> mutableLiveData;
     private AppSpecificDS appSpecificDataSource;
     private ExternalStorageDirectory externalStorageDirectory;
     private SharedPreferencesDS Localds;
@@ -36,36 +37,31 @@ public class Repository {
         return externalStorageDirectory.writeContent("\n" + inputContent);
 
     }
-
     public String readExternalStorageDirectory() {
         return externalStorageDirectory.readFile();
     }
 
 
-    public void createDatabase(Context context, ArrayList<String> values) {
+    public void createDatabase(Context context, Map<String, Integer> values) {
         if (db != null) return;
-
         db = Room.databaseBuilder(context,
-                Appdatabase.class, "list").allowMainThreadQueries().build();
-        for (int i = 0; i < values.size(); i++){
-            insertCateg(values.get(i));
+                Appdatabase.class, "List").allowMainThreadQueries().build();
+        ListDAO listDAO = db.listDAO();
+
+        for (Map.Entry<String, Integer> entry : values.entrySet()) {
+            insertCateg(entry.getKey(), entry.getValue());
         }
     }
+    public  List<Cathegory> getAllCategories(){
+        return db.listDAO().getAllCategoriesList();
 
-
-    public  void getAllCategories(){
-        List<Cathegory> cathegoryList = db.listDAO().getAllCategoriesList();
-        if(cathegoryList.size()> 0){
-            mutableLiveData.postValue(cathegoryList);
-        }else {
-            mutableLiveData.postValue(null);
-        }
     }
-    public  void insertCateg(String catName){
+    public  void insertCateg(String catName, int img){
         Cathegory cathegory= new Cathegory();
         cathegory.catName = catName;
+        cathegory.img = img;
         db.listDAO().insertCategory(cathegory);
-        getAllCategories();
+
     }
     public  void updateCateg(Cathegory cathegory){
         db.listDAO().updateCategory(cathegory);

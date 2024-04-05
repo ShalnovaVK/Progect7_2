@@ -15,11 +15,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.progect7_2.Data.DataSourse.Room.entities.Cathegory;
+import com.example.progect7_2.Data.repository.Repository;
 import com.example.progect7_2.R;
+import com.example.progect7_2.UI_Layer.viewmodel.ItemsViewModel;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 //import com.example.progect7_2.UI_Layer.viewmodel.ItemDetailViewModel;
 
 public class Fragment3 extends Fragment {
-    //private ItemDetailViewModel viewModel;
+    private ItemsViewModel viewModel;
 
     public Fragment3() {
         // Required empty public constructor
@@ -43,21 +50,32 @@ public class Fragment3 extends Fragment {
         final NavController navController = Navigation.findNavController(view);
         TextView textView = getActivity().findViewById(R.id.textView3);
         String text = requireArguments().getString("MyArg2");
-        textView.setText(text);
 
-        /*viewModel = new ViewModelProvider(this,
+        Repository repository = new Repository(this.getContext(), "listic","pushistic");
+        repository.writeAppSpecDS(requireArguments().getString("MyArg2"));
+
+
+        textView.setText(repository.readAppSpecDS());
+
+        TextView textView3 = getActivity().findViewById(R.id.textViewfr3);
+        ImageView imageView3 = getActivity().findViewById(R.id.imageViewfr3);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("Хорошего дня!", R.drawable.mika);
+        viewModel = new ViewModelProvider(this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity()
-                        .getApplication())).get(ItemDetailViewModel.class);
-
-        int itemId = R.drawable.mika;
-        viewModel.getItem(itemId).observe(getViewLifecycleOwner(), item -> {
-            if (item != null) {
-                TextView itemName = view.findViewById(R.id.textViewfr3);
-                ImageView itemDescription = view.findViewById(R.id.imageViewfr3);
-                itemName.setText(item.getName());
-                itemDescription.setImageResource(item.getImage());
+                        .getApplication())).get(ItemsViewModel.class);
+        viewModel.createList(this.getContext(), map);
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), item -> {
+            if (item != null ) {
+                List<Cathegory> list= item.getAllCategories();
+                for(Cathegory s : list){
+                    if (s.img == R.drawable.mika){
+                        textView3.setText(s.catName);
+                        imageView3.setImageResource(s.img);
+                    }
+                }
             }
-        });*/
+        });
 
 
         Button button = getActivity().findViewById(R.id.button3);

@@ -22,16 +22,4 @@ public interface ListDAO {
     void deleteCategory(Cathegory category);
     @Update
     void updateCategory(Cathegory category);
-    @Query("SELECT * FROM Items WHERE catId = :catId")
-    List<Items> getAllItemsList(int catId);
-
-    @Insert
-    void insertItems(Items... items);
-    @Delete
-    void deleteItems(Items... items);
-    @Update
-    void updateItems(Items... items);
-
-
-
 }

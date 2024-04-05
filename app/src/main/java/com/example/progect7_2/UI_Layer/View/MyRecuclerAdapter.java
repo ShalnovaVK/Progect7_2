@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.progect7_2.Data.model.ListData;
 import com.example.progect7_2.R;
 import com.example.progect7_2.Data.DataSourse.Room.entities.Cathegory;
 
@@ -22,10 +23,10 @@ import java.util.ArrayList;
 
 public class MyRecuclerAdapter extends RecyclerView.Adapter< MyRecuclerAdapter.ViewHolder>{
     private final LayoutInflater inflater;
-    private ArrayList<Cathegory> items;
+    private ArrayList<ListData> items;
     private static Context parent;
     private static final String TAG = "MyApp";
-    public MyRecuclerAdapter(Context context, ArrayList<Cathegory> items) {
+    public MyRecuclerAdapter(Context context, ArrayList<ListData> items) {
         this.items = items;
         this.inflater = LayoutInflater.from(context);
         parent = context;
@@ -38,9 +39,9 @@ public class MyRecuclerAdapter extends RecyclerView.Adapter< MyRecuclerAdapter.V
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Cathegory listData = items.get(position);
-        holder.textView.setText(listData.catName);
-        holder.imageView.setImageResource(listData.uid);
+        ListData listData = items.get(position);
+        holder.textView.setText(listData.getName());
+        holder.imageView.setImageResource(listData.getImage());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +49,7 @@ public class MyRecuclerAdapter extends RecyclerView.Adapter< MyRecuclerAdapter.V
                 // Получаем NavController для перехода между фрагментами
                 NavController navController = Navigation.findNavController(view);
                 Bundle bundle =  new Bundle();
-                bundle.putInt("itemId", listData.uid);
+                bundle.putInt("itemId", listData.getImage());
                 // Выполняем переход на другой фрагмент, указав id действия из графа навигации
                 holder.itemView.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.fragment5, bundle));
             }

@@ -54,9 +54,7 @@ public class Fragment1 extends Fragment {
 
         EditText editText = getActivity().findViewById(R.id.editText);
 
-        Repository repository = new Repository(this.getContext(), "listic","pushistic");
-        repository.writeAppSpecDS("Архонты следят за вами через глаза бога!");
-        TextView itemName = view.findViewById(R.id.textViewfr1);
+        /*TextView itemName = view.findViewById(R.id.textViewfr1);
         //itemName.setText(repository.readAppSpecDS());
 
         if(!repository.writeExternalStorageDirectory("Убери за собой")){
@@ -68,61 +66,32 @@ public class Fragment1 extends Fragment {
             }
             repository.writeExternalStorageDirectory("Убери за собой");
         }
-
+*/
 
         //Задание 2
         //TextView itemName = view.findViewById(R.id.textViewfr1);
 
-        itemName.setText(repository.readExternalStorageDirectory());
+        //itemName.setText(repository.readExternalStorageDirectory());
 
 
         // 3) SharedPreferencesDS
-        //TextView itemName = view.findViewById(R.id.textViewfr1);
+        TextView itemName = view.findViewById(R.id.textViewfr1);
         ImageView imageView = view.findViewById(R.id.imageViewfr1);
 
-        repository.createLocalds(this.getContext());
-        repository.setLocalName("temnozvezdnik");
-        repository.setLocalImg(R.drawable.temnozvezdnik);
-
-        //itemName.setText(repository.getItems().getName());
-        imageView.setImageResource(repository.getItems().getImage());
-
-
-        /*viewModel = new ViewModelProvider(this,
+        viewModel = new ViewModelProvider(this,
                 ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity()
                         .getApplication())).get(ItemsViewModel.class);
 
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("temnozvezdnik");
-        viewModel.createList(this.getActivity(),arrayList);
+        viewModel.createLocalds(this.getContext());
+        viewModel.setLocalName("temnozvezdnik");
+        viewModel.setLocalImg(R.drawable.temnozvezdnik);
 
-        int itemId = R.drawable.temnozvezdnik;
-
-
-        viewModel.getItemsObserv().observe(getViewLifecycleOwner(), new Observer<List<Cathegory>>() {
-            @Override
-            public void onChanged(List<Cathegory> cathegories) {
-                if (cathegories == null){
-                    TextView itemName = view.findViewById(R.id.textViewfr1);
-                    itemName.setText("No data(((");
-                }else{
-                    TextView itemName = view.findViewById(R.id.textViewfr1);
-                    itemName.setText("Yes data(((");
-                }
+        viewModel.getLiveData().observe(getViewLifecycleOwner(), item -> {
+            if (item != null ) {
+                itemName.setText(item.getLocalName());
+                imageView.setImageResource(item.getLocalImg());
             }
         });
-
-        /*
-        viewModel.getItem(itemId).observe(getViewLifecycleOwner(), item -> {
-            if (item != null) {
-                TextView itemName = view.findViewById(R.id.textViewfr1);
-                ImageView itemDescription = view.findViewById(R.id.imageViewfr1);
-                itemName.setText(item.getName());
-                itemDescription.setImageResource(item.getImage());
-            }
-        });*/
-
-
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
