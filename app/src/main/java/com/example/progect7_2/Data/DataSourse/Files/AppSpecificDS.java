@@ -23,34 +23,25 @@ public class AppSpecificDS {
             this.fileName = filename;
             this.file = new File(context.getFilesDir(), filename);
         }
-
         public String readAppSpecificDS() {
             if (file.exists() == false) return null;
-
             FileInputStream fis = null;
-
-            try {
-                fis = context.openFileInput(fileName);
+            try {fis = context.openFileInput(fileName);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
             String contents = null;
             InputStreamReader istr = new InputStreamReader(fis, StandardCharsets.UTF_8);
             StringBuilder stringBuilder = new StringBuilder();
-
             try (BufferedReader reader = new BufferedReader(istr)) {
                 String line = reader.readLine();
                 while (line != null) {
                     stringBuilder.append(line).append('\n');
                     line = reader.readLine();
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally {
+            } catch (IOException e) {throw new RuntimeException(e);} finally {
                 contents = stringBuilder.toString();
             }
-
             return contents;
         }
 
@@ -59,8 +50,6 @@ public class AppSpecificDS {
             FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             fos.write(fileContents.getBytes());
             fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {e.printStackTrace();}
     }
 }

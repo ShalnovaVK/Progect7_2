@@ -1,5 +1,6 @@
 package com.example.progect7_2.UI_Layer.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,5 +79,23 @@ public class Fragment5 extends Fragment {
                 navController.navigate(R.id.fragment4);
             }
         });
+
+
+
+        Button button2 = getActivity().findViewById(R.id.button5);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView itemName = view.findViewById(R.id.textView);
+                shareText(itemName.getText().toString());
+            }
+        });
+    }
+    private void shareText(String text) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, "Поделиться через"));
     }
 }

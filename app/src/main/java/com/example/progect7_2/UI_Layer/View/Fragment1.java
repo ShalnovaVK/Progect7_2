@@ -54,26 +54,6 @@ public class Fragment1 extends Fragment {
 
         EditText editText = getActivity().findViewById(R.id.editText);
 
-        /*TextView itemName = view.findViewById(R.id.textViewfr1);
-        //itemName.setText(repository.readAppSpecDS());
-
-        if(!repository.writeExternalStorageDirectory("Убери за собой")){
-            requestPermission();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            repository.writeExternalStorageDirectory("Убери за собой");
-        }
-*/
-
-        //Задание 2
-        //TextView itemName = view.findViewById(R.id.textViewfr1);
-
-        //itemName.setText(repository.readExternalStorageDirectory());
-
-
         // 3) SharedPreferencesDS
         TextView itemName = view.findViewById(R.id.textViewfr1);
         ImageView imageView = view.findViewById(R.id.imageViewfr1);
@@ -102,23 +82,4 @@ public class Fragment1 extends Fragment {
         });
     }
 
-    private void requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            Toast.makeText(getContext(), "Write External Storage permission allows us to create files. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Log.e("value", "Permission Granted, Now you can use local drive .");
-                }
-                break;
-        }
-    }
 }

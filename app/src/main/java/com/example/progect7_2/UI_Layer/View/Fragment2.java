@@ -63,8 +63,12 @@ public class Fragment2 extends Fragment {
 
         TextView itemName = view.findViewById(R.id.textView2);
 
+        repository.writeAppSpecDS(requireArguments().getString("MyArg"));
 
-        if(!repository.writeExternalStorageDirectory(text)){
+
+        itemName.setText(repository.readAppSpecDS());
+
+        /*if(!repository.writeExternalStorageDirectory(text)){
             requestPermission();
             try {
                 Thread.sleep(3000);
@@ -74,7 +78,7 @@ public class Fragment2 extends Fragment {
             repository.writeExternalStorageDirectory(text);
         }
         itemName.setText(repository.readExternalStorageDirectory());
-
+*/
 
         //textView.setText(text);
 

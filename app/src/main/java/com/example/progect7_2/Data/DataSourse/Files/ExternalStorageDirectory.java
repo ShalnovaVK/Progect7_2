@@ -25,7 +25,6 @@ public class ExternalStorageDirectory{
     }
 
     public boolean writeContent(String inputContent) {
-        if (!inputContent.isEmpty()) {
             String state = Environment.getExternalStorageState();
             if (Environment.MEDIA_MOUNTED.equals(state)) {
                 if (checkPermission()) {
@@ -34,13 +33,12 @@ public class ExternalStorageDirectory{
                     if (file == null || !file.exists()) {
                         String dir = sdcard.getAbsolutePath() + "/MyFolder/";
                         file = new File(dir + fileName + ".txt");
-
                     }
-                    FileOutputStream os = null;
+                    FileOutputStream fos = null;
                     try {
-                        os = new FileOutputStream(file);
-                        os.write(inputContent.getBytes());
-                        os.close();
+                        fos = new FileOutputStream(file);
+                        fos.write(inputContent.getBytes());
+                        fos.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -49,8 +47,6 @@ public class ExternalStorageDirectory{
                     return false;
                 }
             }
-        }
-
         return true;
     }
 

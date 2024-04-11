@@ -17,11 +17,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Repository {
-    private Appdatabase db;
-    //public MutableLiveData<List<Cathegory>> mutableLiveData;
-    private AppSpecificDS appSpecificDataSource;
+
     private ExternalStorageDirectory externalStorageDirectory;
-    private SharedPreferencesDS Localds;
+    private AppSpecificDS appSpecificDataSource;
+
+
     public Repository() {}
     public Repository(Context context, String appSpecDSFileName, String externalStorageDirectory) {
         this.appSpecificDataSource = new AppSpecificDS(context, appSpecDSFileName);
@@ -33,36 +33,31 @@ public class Repository {
     public String readAppSpecDS() {
         return appSpecificDataSource.readAppSpecificDS();
     }
+
     public boolean writeExternalStorageDirectory(String inputContent) {
         return externalStorageDirectory.writeContent("\n" + inputContent);
-
     }
     public String readExternalStorageDirectory() {
         return externalStorageDirectory.readFile();
     }
-
-
+    private Appdatabase db;
     public void createDatabase(Context context, Map<String, Integer> values) {
         if (db != null) return;
         db = Room.databaseBuilder(context,
                 Appdatabase.class, "List").allowMainThreadQueries().build();
         ListDAO listDAO = db.listDAO();
-
         for (Map.Entry<String, Integer> entry : values.entrySet()) {
             insertCateg(entry.getKey(), entry.getValue());
         }
     }
     public  List<Cathegory> getAllCategories(){
         return db.listDAO().getAllCategoriesList();
-
     }
     public  void insertCateg(String catName, int img){
         Cathegory cathegory= new Cathegory();
         cathegory.catName = catName;
         cathegory.img = img;
-        db.listDAO().insertCategory(cathegory);
-
-    }
+        db.listDAO().insertCategory(cathegory);}
     public  void updateCateg(Cathegory cathegory){
         db.listDAO().updateCategory(cathegory);
         getAllCategories();
@@ -72,6 +67,7 @@ public class Repository {
         getAllCategories();
     }
 
+    private SharedPreferencesDS Localds;
 
     public void createLocalds(Context context) {
         if (Localds == null)

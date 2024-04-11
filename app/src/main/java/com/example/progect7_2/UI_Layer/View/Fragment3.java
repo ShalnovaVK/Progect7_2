@@ -1,5 +1,9 @@
 package com.example.progect7_2.UI_Layer.View;
 
+import static android.content.Intent.getIntent;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,13 +53,22 @@ public class Fragment3 extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
         TextView textView = getActivity().findViewById(R.id.textView3);
-        String text = requireArguments().getString("MyArg2");
-
-        Repository repository = new Repository(this.getContext(), "listic","pushistic");
-        repository.writeAppSpecDS(requireArguments().getString("MyArg2"));
 
 
-        textView.setText(repository.readAppSpecDS());
+        Intent intent = getActivity().getIntent();
+
+        // Проверяем, содержит ли intent текстовые данные
+        if (intent != null && Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+            if ("text/plain".equals(intent.getType())) {
+                String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                if (sharedText != null) {
+                    // Обработка полученного текста (например, отображение на экране)
+
+                    textView.setText(sharedText);
+                }
+            }
+        }
+
 
         TextView textView3 = getActivity().findViewById(R.id.textViewfr3);
         ImageView imageView3 = getActivity().findViewById(R.id.imageViewfr3);

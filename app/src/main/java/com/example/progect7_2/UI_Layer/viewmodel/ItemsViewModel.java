@@ -19,10 +19,6 @@ import java.util.Objects;
 
 public class ItemsViewModel extends ViewModel {
     private final Repository repository = new Repository();
-    private final MutableLiveData<Repository> liveData = new MutableLiveData<>(new Repository());
-    /*public MutableLiveData<List<Cathegory>> getItemsObserv() {
-        return repository.mutableLiveData;
-    }*/
 
     public LiveData<Repository> getLiveData() {
         return liveData;
@@ -32,6 +28,8 @@ public class ItemsViewModel extends ViewModel {
         Objects.requireNonNull(liveData.getValue()).createDatabase(context, cathegories);
     }
 
+
+    private final MutableLiveData<Repository> liveData = new MutableLiveData<>(new Repository());
     public  void createLocalds(Context context){
         Objects.requireNonNull(liveData.getValue()).createLocalds(context);
     }
