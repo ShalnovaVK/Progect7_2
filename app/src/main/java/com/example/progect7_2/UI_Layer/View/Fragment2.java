@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Fragment2 extends Fragment {
     private ItemsViewModel viewModel;
@@ -57,16 +59,26 @@ public class Fragment2 extends Fragment {
         final NavController navController = Navigation.findNavController(view);
         Button button = getActivity().findViewById(R.id.button2);
         //TextView textView = getActivity().findViewById(R.id.textView2);
-        text = requireArguments().getString("MyArg");
+        //text = requireArguments().getString("MyArg");
+
+        // Запускаем задачу записи в файл
 
         Repository repository = new Repository(this.getContext(), "listic","pushistic");
 
         TextView itemName = view.findViewById(R.id.textView2);
+        //repository.writeAppSpecDS(requireArguments().getString("MyArg"));
 
-        repository.writeAppSpecDS(requireArguments().getString("MyArg"));
+        ExecutorService service = Executors.newFixedThreadPool(2);
+            service.submit(new Runnable() {
+                public void run() {
+                    repository.writeAppSpecDS(requireArguments().getString("MyArg"));
+                    itemName.setText(repository.readAppSpecDS());
+                }
+            });
 
+        service.shutdown();
 
-        itemName.setText(repository.readAppSpecDS());
+        //itemName.setText(repository.readAppSpecDS());
 
         /*if(!repository.writeExternalStorageDirectory(text)){
             requestPermission();

@@ -18,11 +18,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.progect7_2.Data.DataSourse.Room.entities.Cathegory;
 import com.example.progect7_2.Data.repository.Repository;
 import com.example.progect7_2.R;
 import com.example.progect7_2.UI_Layer.viewmodel.ItemsViewModel;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +35,7 @@ import java.util.Map;
 
 public class Fragment3 extends Fragment {
     private ItemsViewModel viewModel;
+
 
     public Fragment3() {
         // Required empty public constructor
@@ -89,6 +94,8 @@ public class Fragment3 extends Fragment {
                 }
             }
         });
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SkyWalker.class).build();
+        WorkManager.getInstance().enqueue(workRequest);
 
 
         Button button = getActivity().findViewById(R.id.button3);

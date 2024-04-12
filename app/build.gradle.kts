@@ -39,6 +39,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.4.0-alpha01")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.room:androidx.room.gradle.plugin:2.6.1")
+    implementation("androidx.work:work-runtime:2.10.0-alpha01")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.navigation:navigation-fragment:2.7.7")
