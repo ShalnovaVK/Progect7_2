@@ -5,9 +5,13 @@ import static android.content.Intent.getIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -45,8 +50,16 @@ public class Fragment3 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        Transition exitTransition = inflater.inflateTransition(R.transition.fade);
+        setExitTransition(exitTransition);
 
+        Transition enterTransition = inflater.inflateTransition(R.transition.slide_right);
+        setEnterTransition(enterTransition);
     }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,4 +120,15 @@ public class Fragment3 extends Fragment {
             }
         });
     }
+   /* public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (enter) {
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragmententer);
+            anim.setDuration(500);
+            return anim;
+        } else {
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragmentexit);
+            anim.setDuration(500);
+            return anim;
+        }
+    }*/
 }

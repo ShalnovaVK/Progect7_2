@@ -2,9 +2,13 @@ package com.example.progect7_2.UI_Layer.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +38,17 @@ public class Fragment5 extends Fragment {
             R.drawable.trishirait,R.drawable.lampovyjkolokolchik,R.drawable.raduzhnajaroza,
             R.drawable.temnozvezdnik, R.drawable.podblokobnaruzhenija, R.drawable.istochnikpervojrosy};
     private ItemsViewModel viewModel;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        Transition exitTransition = inflater.inflateTransition(R.transition.fade);
+        setExitTransition(exitTransition);
 
+        Transition enterTransition = inflater.inflateTransition(R.transition.slide_right);
+        setEnterTransition(enterTransition);
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_5, container, false);
@@ -97,5 +111,16 @@ public class Fragment5 extends Fragment {
         shareIntent.putExtra(Intent.EXTRA_TEXT, text);
         shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Поделиться через"));
+    }
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (enter) {
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragmentexit);
+            anim.setDuration(1000);
+            return anim;
+        } else {
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragmententer);
+            anim.setDuration(500);
+            return anim;
+        }
     }
 }

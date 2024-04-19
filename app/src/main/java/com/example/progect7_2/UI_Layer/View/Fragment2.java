@@ -2,10 +2,14 @@ package com.example.progect7_2.UI_Layer.View;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +49,12 @@ public class Fragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TransitionInflater inflater = TransitionInflater.from(requireContext());
+        Transition exitTransition = inflater.inflateTransition(R.transition.fade);
+        setExitTransition(exitTransition);
+
+        Transition enterTransition = inflater.inflateTransition(R.transition.slide_right);
+        setEnterTransition(enterTransition);
 
     }
 
@@ -142,6 +152,17 @@ public class Fragment2 extends Fragment {
                     Log.e("value", "Permission Granted, Now you can use local drive .");
                 }
                 break;
+        }
+    }
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (enter) {
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragmententer);
+            anim.setDuration(500);
+            return anim;
+        } else {
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.fragmentexit);
+            anim.setDuration(500);
+            return anim;
         }
     }
 }
